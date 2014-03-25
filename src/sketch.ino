@@ -53,7 +53,7 @@ void loop() {
           client.println("HTTP/1.1 200 OK");
           client.println("Content-Type: text/html");
           client.println("Connection: close");  // the connection will be closed after completion of the response
-	      client.println("Refresh: 1");  // refresh the page automatically every 5 sec
+//	      client.println("Refresh: 1");  // refresh the page automatically every 5 sec
           client.println();
           if(HTML){
           client.println("<!DOCTYPE HTML>");
@@ -65,47 +65,52 @@ void loop() {
           client.println("<body>");
           }
           DHT.read11(DHT11_PIN);
-          client.print("Temperature: ");
-          client.println(DHT.temperature,0);
+          client.print("Temperature=");
+          client.print(DHT.temperature,0);
+          client.print(";");
           if(HTML)
           client.print("</br>");
 
-          client.print("Humidity: ");
-          client.println(DHT.humidity,0);
+          client.print("Humidity=");
+          client.print(DHT.humidity,0);
+          client.print(";");
           if(HTML)
           client.println("<br/>");
           
           int light_a = analogRead(LIGHT_A_PIN);
-          client.print("Light: ");
-          client.println(1024-light_a);
+          client.print("Light=");
+          client.print(1024-light_a);
+          client.print(";");
           if(HTML)
           client.println("<br/>");
 
-          client.print("Sound_detected: ");
+          client.print("Sound_detected=");
           if(sound == sound_p){
-              client.println(0);
+              client.print(0);
           }else{
-              client.println(1);
+              client.print(1);
               sound_p = sound;
           }
+          client.print(";");
           if(HTML)
           client.println("<br/>");
 
-          client.print("Fire_detected: ");
+          client.print("Fire_detected=");
           if(digitalRead(FIRE_D_PIN)==HIGH){
-              client.println(0);
+              client.print(0);
           }else{
-              client.println(1);
+              client.print(1);
           }
+          client.print(";");
           if(HTML)
           client.println("<br/>");
 
-          client.print("Body_detected: ");
+          client.print("Body_detected=");
           if(body==body_p){
-              client.println(0);
+              client.print(0);
           }else{
               body_p = body;
-              client.println(1);
+              client.print(1);
           }
           if(HTML){
           client.println("<br/>");
