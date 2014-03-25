@@ -2,6 +2,7 @@
 
 # C extensions
 *.so
+.build
 
 # Packages
 *.egg
