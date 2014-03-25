@@ -8,9 +8,11 @@ dht DHT;
 #define INFR_PIN  6
 #define LIGHT_D_PIN 4
 #define LIGHT_A_PIN 2
-#define SOUND_A_PIN 1
+#define SOUND_D_PIN 3
 #define FIRE_D_PIN 5
 #define FIRE_A_PIN 0
+
+#define HTML 0
 
 byte mac[] = { 
   0xDE, 0xAD, 0xBE, 0xEF, 0xFD, 0xED };
@@ -22,6 +24,7 @@ void setup() {
   Serial.begin(9600);
   pinMode(FIRE_D_PIN,INPUT);
   pinMode(INFR_PIN,INPUT);
+  pinMode(SOUND_D_PIN,INPUT);
 
   Ethernet.begin(mac, ip);
   server.begin();
@@ -29,8 +32,16 @@ void setup() {
   Serial.println(Ethernet.localIP());
 }
 
+unsigned int sound = 0, body = 0, sound_p = 0, body_p =0;
+
 void loop() {
   EthernetClient client = server.available();
+  if(digitalRead(SOUND_D_PIN) == LOW)
+      sound ++;
+
+  if(digitalRead(INFR_PIN)==HIGH)
+      body ++;
+  
   if (client) {
     Serial.println("new client");
     boolean currentLineIsBlank = true;
@@ -42,8 +53,9 @@ void loop() {
           client.println("HTTP/1.1 200 OK");
           client.println("Content-Type: text/html");
           client.println("Connection: close");  // the connection will be closed after completion of the response
-	  client.println("Refresh: 5");  // refresh the page automatically every 5 sec
+	      client.println("Refresh: 1");  // refresh the page automatically every 5 sec
           client.println();
+          if(HTML){
           client.println("<!DOCTYPE HTML>");
           client.println("<html>");
           // output the value of each analog input pin
@@ -51,49 +63,55 @@ void loop() {
           client.println("<title>Qiudog.com</title>");
           client.println("</head>");
           client.println("<body>");
-//          for (int analogChannel = 0; analogChannel < 6; analogChannel++) {
-//            int sensorReading = analogRead(analogChannel);
-//            client.print("analog input ");
-//            client.print(analogChannel);
-//            client.print(" is ");
-//            client.print(sensorReading);
-//            client.println("<br />");       
-//          }
+          }
           DHT.read11(DHT11_PIN);
           client.print("Temperature: ");
-          client.print(DHT.temperature,1);
+          client.println(DHT.temperature,0);
+          if(HTML)
           client.print("</br>");
+
           client.print("Humidity: ");
-          client.print(DHT.humidity,1);
-          client.println("%<br/>");
+          client.println(DHT.humidity,0);
+          if(HTML)
+          client.println("<br/>");
           
           int light_a = analogRead(LIGHT_A_PIN);
           client.print("Light: ");
-          client.print(light_a);
+          client.println(1024-light_a);
+          if(HTML)
           client.println("<br/>");
 
-          int sound_a = analogRead(SOUND_A_PIN);
-          client.print("Sound: ");
-          client.print(1024-sound_a);
+          client.print("Sound_detected: ");
+          if(sound == sound_p){
+              client.println(0);
+          }else{
+              client.println(1);
+              sound_p = sound;
+          }
+          if(HTML)
           client.println("<br/>");
 
-          client.print("House on fire: ");
+          client.print("Fire_detected: ");
           if(digitalRead(FIRE_D_PIN)==HIGH){
-              client.print(0);
+              client.println(0);
           }else{
-              client.print(1);
+              client.println(1);
           }
+          if(HTML)
           client.println("<br/>");
 
-          client.print("Some one at home: ");
-          if(digitalRead(INFR_PIN)==HIGH){
-              client.print(0);
+          client.print("Body_detected: ");
+          if(body==body_p){
+              client.println(0);
           }else{
-              client.print(1);
+              body_p = body;
+              client.println(1);
           }
+          if(HTML){
           client.println("<br/>");
           client.println("</body>");
           client.println("</html>");
+          }
           break;
         }
         if (c == '\n') {
