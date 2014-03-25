@@ -36,5 +36,7 @@ if __name__ == '__main__':
 
             time.sleep(1)
             count+=1
+            print count
         except:
             print "Exception raised..."
+            time.sleep(1)
