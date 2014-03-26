@@ -65,26 +65,26 @@ void loop() {
           client.println("<body>");
           }
           DHT.read11(DHT11_PIN);
-          client.print("Temperature=");
+          client.print("4.Temperature=");
           client.print(DHT.temperature,0);
           client.print(";");
           if(HTML)
           client.print("</br>");
 
-          client.print("Humidity=");
+          client.print("5.Humidity=");
           client.print(DHT.humidity,0);
           client.print(";");
           if(HTML)
           client.println("<br/>");
           
           int light_a = analogRead(LIGHT_A_PIN);
-          client.print("Light=");
+          client.print("3.Light=");
           client.print(1024-light_a);
           client.print(";");
           if(HTML)
           client.println("<br/>");
 
-          client.print("Sound_detected=");
+          client.print("2.Noise=");
           if(sound == sound_p){
               client.print(0);
           }else{
@@ -95,7 +95,7 @@ void loop() {
           if(HTML)
           client.println("<br/>");
 
-          client.print("Fire_detected=");
+          client.print("6.Fire=");
           if(digitalRead(FIRE_D_PIN)==HIGH){
               client.print(0);
           }else{
@@ -105,7 +105,7 @@ void loop() {
           if(HTML)
           client.println("<br/>");
 
-          client.print("Body_detected=");
+          client.print("1.Body=");
           if(body==body_p){
               client.print(0);
           }else{
