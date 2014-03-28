@@ -20,9 +20,11 @@ if __name__ == '__main__':
     count = 0
     while True:
         try:
+            print count
             data = get_arduino_data(read_arduino(arduino_url))
             lis = []
             for key in data.keys():
+                print key,data[key],
                 lis.append({"id":key,"current_value":data[key]})
 
             if count%1 == 0:
@@ -36,7 +38,6 @@ if __name__ == '__main__':
 
             time.sleep(1)
             count+=1
-            print count
         except:
             print "Exception raised..."
             time.sleep(1)
