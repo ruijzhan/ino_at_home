@@ -27,17 +27,17 @@
 
 class dht
 {
-public:
-    int read11(uint8_t pin);
-    int read21(uint8_t pin);
-    int read22(uint8_t pin);
+    public:
+        int read11(uint8_t pin);
+        int read21(uint8_t pin);
+        int read22(uint8_t pin);
 
-    double humidity;
-    double temperature;
+        double humidity;
+        double temperature;
 
-private:
-    uint8_t bits[5];  // buffer to receive data
-    int read(uint8_t pin);
+    private:
+        uint8_t bits[5];  // buffer to receive data
+        int read(uint8_t pin);
 };
 #endif
 //

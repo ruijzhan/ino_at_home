@@ -11,6 +11,7 @@ dht DHT;
 #define SOUND_D_PIN 3
 #define FIRE_D_PIN 5
 #define FIRE_A_PIN 0
+#define LED_OUT_PIN 2
 
 #define HTML 0
 
@@ -25,6 +26,7 @@ void setup() {
   pinMode(FIRE_D_PIN,INPUT);
   pinMode(INFR_PIN,INPUT);
   pinMode(SOUND_D_PIN,INPUT);
+//  pinMode(LED_OUT_PIN,OUTPUT);
 
   Ethernet.begin(mac, ip);
   server.begin();
@@ -130,7 +132,9 @@ void loop() {
       }
     }
     // give the web browser time to receive the data
+    //digitalWrite(LED_OUT_PIN,LOW);
     delay(1);
+    //digitalWrite(LED_OUT_PIN,HIGH);
     // close the connection:
     client.stop();
     Serial.println("client disonnected");
