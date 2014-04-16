@@ -1,6 +1,8 @@
 #include <SPI.h>
 #include <Ethernet.h>
 #include "dht.h"
+#include "Timer.h"
+#include "Event.h"
 
 dht DHT;
 
@@ -26,7 +28,7 @@ void setup() {
   pinMode(FIRE_D_PIN,INPUT);
   pinMode(INFR_PIN,INPUT);
   pinMode(SOUND_D_PIN,INPUT);
-//  pinMode(LED_OUT_PIN,OUTPUT);
+  pinMode(LED_OUT_PIN,OUTPUT);
 
   Ethernet.begin(mac, ip);
   server.begin();
@@ -132,9 +134,9 @@ void loop() {
       }
     }
     // give the web browser time to receive the data
-    //digitalWrite(LED_OUT_PIN,LOW);
+    digitalWrite(LED_OUT_PIN,HIGH);
     delay(1);
-    //digitalWrite(LED_OUT_PIN,HIGH);
+    digitalWrite(LED_OUT_PIN,LOW);
     // close the connection:
     client.stop();
     Serial.println("client disonnected");
