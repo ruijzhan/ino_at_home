@@ -19,7 +19,7 @@ dht DHT;
 
 byte mac[] = { 
   0xDE, 0xAD, 0xBE, 0xEF, 0xFD, 0xED };
-IPAddress ip(192,168,0,113);
+IPAddress ip(192,168,1,113);
 
 EthernetServer server(80);
 

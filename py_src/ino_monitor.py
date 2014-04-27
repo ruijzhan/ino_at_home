@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import urllib2,time,json,subprocess,os
 
-arduino_url = 'http://192.168.0.113'
+arduino_url = 'http://192.168.1.113'
 
 def read_arduino(url):
     ret_string = urllib2.urlopen(url).read()
